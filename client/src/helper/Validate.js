@@ -14,9 +14,6 @@ function usernameVerify(error = {}, values) {
   } else if (values.username.includes(" ")) {
     error.username = toast.error("Invalid Username...!");
   }
-  //   else if(values.username) {
-  //     error.username = toast.success('Valid Username')
-  //   }
   return error;
 }
 
