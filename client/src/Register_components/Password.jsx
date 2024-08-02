@@ -16,8 +16,8 @@ const Password = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async values => {
-        console.log(values);
-        values = ''
+      console.log(values);
+      // values = ''
     }
   });
   return (

@@ -11,7 +11,7 @@ const Recovery = () => {
   
   return (
     <div className="container mx-auto">
-        <Toaster position="top-right-corner" reverseOrder={false}></Toaster>
+      <Toaster position="top-right-corner" reverseOrder={false}></Toaster>
       <div className="flex justify-center items-center h-full">
         <div className={styles.glass}>
           <div className="title flex flex-col items-center">
