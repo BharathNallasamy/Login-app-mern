@@ -4,8 +4,8 @@ import avatar from '../assets/kevinRushProfile.png';
 import styles from '../styles/Username.module.css';
 import { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
-import { passwordValidation } from "../helper/Validate";
-
+import { registerValidation } from "../helper/Validate";
+import convertToBase64 from '../helper/convert';
 
 const Register = () => {
   const [file, setFile] = useState()
@@ -15,18 +15,18 @@ const Register = () => {
       username: '',
       password: ''
     },
-    validate: passwordValidation,
+    validate: registerValidation,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async values => {
-        console.log(values);
-        values = ''
+      values = await Object.assign(values, { profile: file || ''})
+      console.log(values);
     }
   });
 
   /** formik doesan't support file upload so we need to create this handler */
-  const onUpload = async e => {
-    const base64 = ''
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64)
   }
   return (
@@ -44,9 +44,9 @@ const Register = () => {
           <form className="py-1" onSubmit={formik.handleSubmit}>
             <div className="profile flex justify-center py-4">
               <label htmlFor="profile" className="profile">
-                <img className={styles.profile_img} src={avatar} alt="" />
+                <img className={styles.profile_img} src={file || avatar} alt="" />
               </label>
-              <input type="file" id="profile" />
+              <input onChange={onUpload} type="file" id="profile" />
             </div>
             <div className="textbox flex flex-col items-center gap-6">
               <input 
