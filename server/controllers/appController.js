@@ -1,3 +1,5 @@
+import UserModel from "../model/User.model.js";
+
 /** POST http://localhost:3000/api/register
  * @param: {
  * "username" : "test@123",
@@ -11,7 +13,29 @@
  * }
  */
 export async function register(req, res) {
-  res.json("Register route");
+  try {
+    const { username, password, profile, email } = req.body;
+    // Check existing user
+    const existUserName = new Promise((resolve, reject) => {
+      UserModel.findOne({ username }, function (err, user) {
+        if (err) reject(new Error(err));
+        if (user) reject({ error: "Please use unique username" });
+        resolve();
+      });
+    });
+    // Check existing email
+    const existEmail = new Promise((resolve, reject) => {
+      UserModel.findOne({ email }, function (err, email) {
+        if (err) reject(new Error(err));
+        if (email) reject({ error: "Please use unique email" });
+        resolve();
+      });
+    });
+
+    Promise.all([existUserName, existEmail]);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 }
 
 /** POST: http://localhost:3000/api/login
